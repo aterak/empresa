@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./Template.xhtml">
+
+           
+
+            <ui:define name="content">
+             
+                    <h:form   rendered="#{loginBean.verificaSessao()}">
+                        
+                        
+            <h:commandButton value="PDF" actionListener="#{clienteBean.exportarPDF}"/>
+            <h:commandButton value="EXCEL" actionListener="#{clienteBean.exportarExcel}"/>
+            <h:commandButton value="PPT" actionListener="#{clienteBean.exportarPPT}"/>      
+            <h:commandButton value="DOC" actionListener="#{clienteBean.exportarDOC}"/> 
+            <h:commandButton value="HTML" actionListener="#{clienteBean.exportarHTML}"/>
+                        
+                     <p:commandButton value="Cadastrar" type="button" onclick="PF('dlg3').show();" /> 
+                    </h:form>
+                <center>
+                
+               
+                
+                
+                <f:view>
+
+
+                   
+                             
+                              <h:form   rendered="#{loginBean.verificaSessao()}">
+                        <h1><h:outputText value="Lista de Funcionario"/></h1>
+                        
+                        <p:dataTable id="tbl" var="item" value="#{funcionarioBean.lista}"
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                 paginator="true" rows="10" style="margin-bottom:20px">
+                            
+                            
+                                    
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="id"/>
+                                </f:facet>
+                                <h:outputText value="#{item.id}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nome"/>
+                                </f:facet>
+                                <h:outputText value="#{item.nome}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Cpf"/>
+                                </f:facet>
+                                <h:outputText value="#{item.cpf}"/>
+                            </p:column>
+                          
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Ident"/>
+                                </f:facet>
+                                <h:outputText value="#{item.ident}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Tel"/>
+                                </f:facet>
+                                <h:outputText value="#{item.tel}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Cel"/>
+                                </f:facet>
+                                <h:outputText value="#{item.cel}"/>
+                            </p:column>
+                           
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Email"/>
+                                </f:facet>
+                                <h:outputText value="#{item.email}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Cep"/>
+                                </f:facet>
+                                <h:outputText value="#{item.cep}"/>
+                            </p:column>
+                            
+                         
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="DataNasc"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dataNasc}">
+                                    <f:convertDateTime pattern="dd/MM/yy" />
+                                </h:outputText>
+                            </p:column>
+                            
+                             <p:column style="width:140px">
+                                <f:facet name="header">
+                                    <h:outputText value="Ação"/>
+                                </f:facet>
+                                 <p:commandButton value="excluir" action="#{funcionarioBean.excluir(item)}"/>
+                                  <p:commandButton value="Alterar" type="button" onclick="PF('dlg3').show();" action="#{funcionarioBean.prepararEdita(item)}"/>
+                               
+                              
+              
+                             </p:column>
+                            <f:facet name="header">
+                           !! Total de funcionarios:         :
+                           <h:outputText value="#{funcionarioBean.tamanho()}"/>
+                            
+                        </f:facet>
+                        </p:dataTable>
+                    </h:form>
+                </f:view>
+
+                </center>
+                
+                
+                  <h:form id="formCreate">
+                      
+                      
+                       <p:dialog header="Effects" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="150"> 
+                       
+                      <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+
+                            <h:outputText value="ID" /> 
+                             <h:outputText value="nome" />
+                             <p:inputText value="#{funcionarioBean.funcionario.id}" style="width: 200px"/> 
+                             <p:inputText value="#{funcionarioBean.funcionario.nome}" style="width: 200px"/> 
+                            
+                            <h:outputText value="bairro" /> 
+                             <h:outputText value="cel" /> 
+                             <p:inputText value="#{funcionarioBean.funcionario.bairro}" style="width: 200px"/> 
+                             <p:inputText value="#{funcionarioBean.funcionario.cel}" style="width: 200px"/> 
+                           
+                            <h:outputText value="cep" /> 
+                             <h:outputText value="cidade" /> 
+                             <p:inputText value="#{funcionarioBean.funcionario.cep}" style="width: 200px"/> 
+                             <p:inputText value="#{funcionarioBean.funcionario.cidade}" style="width: 200px"/> 
+                            
+                             <h:outputText value="cpf" /> 
+                             <h:outputText value="estado civil" /> 
+                             <p:inputText value="#{funcionarioBean.funcionario.cpf}" style="width: 200px"/> 
+                             <p:inputText value="#{funcionarioBean.funcionario.estadocivil}" style="width: 200px"/> 
+
+                           
+                             
+                             <h:outputText value="email" /> 
+                             <h:outputText value="Data Nascimento:__/__/____" style="width: 200px"/> 
+                             <p:inputText value="#{funcionarioBean.funcionario.email}" style="width: 200px"/> 
+                            <p:inputText id="dataNascFunc" value="#{funcionarioBean.funcionario.dataNasc}" title="DataNascFunc" >
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </p:inputText>
+                             
+                             
+                             <h:outputText value="endereço" /> 
+                             <h:outputText value="estado " /> 
+                             <p:inputText value="#{funcionarioBean.funcionario.endereco}" style="width: 200px"/> 
+                             <p:selectOneMenu value="#{funcionarioBean.funcionario.estado}">  
+                                
+                                <f:selectItem itemLabel="AC" itemValue="AC" /> 
+                                <f:selectItem itemLabel="AL" itemValue="AL" /> 
+                                <f:selectItem itemLabel="AP" itemValue="AP" /> 
+                                <f:selectItem itemLabel="AM" itemValue="AM" /> 
+                                <f:selectItem itemLabel="BA" itemValue="BA" /> 
+                                <f:selectItem itemLabel="CE" itemValue="CE" /> 
+                                <f:selectItem itemLabel="DF" itemValue="DF" /> 
+                                <f:selectItem itemLabel="ES" itemValue="ES" /> 
+                                <f:selectItem itemLabel="GO" itemValue="GO" /> 
+                                <f:selectItem itemLabel="MA" itemValue="MA" /> 
+                                <f:selectItem itemLabel="MT" itemValue="MT" /> 
+                                <f:selectItem itemLabel="MS" itemValue="MS" /> 
+                                <f:selectItem itemLabel="MG" itemValue="MG" /> 
+                                <f:selectItem itemLabel="PR" itemValue="PR" /> 
+                                <f:selectItem itemLabel="PB" itemValue="PB" /> 
+                                <f:selectItem itemLabel="PA" itemValue="PA" /> 
+                                <f:selectItem itemLabel="PE" itemValue="PE" /> 
+                                <f:selectItem itemLabel="PI" itemValue="PI" /> 
+                                <f:selectItem itemLabel="RJ" itemValue="RJ" /> 
+                                <f:selectItem itemLabel="RN" itemValue="RN" /> 
+                                <f:selectItem itemLabel="RS" itemValue="RS" /> 
+                                <f:selectItem itemLabel="RO" itemValue="RO" /> 
+                                <f:selectItem itemLabel="RR" itemValue="RR" /> 
+                                <f:selectItem itemLabel="SC" itemValue="SC" /> 
+                                <f:selectItem itemLabel="SE" itemValue="SE" /> 
+                                <f:selectItem itemLabel="SP" itemValue="SP" /> 
+                                <f:selectItem itemLabel="TO" itemValue="TO" /> 
+                               </p:selectOneMenu>
+                             
+                             
+                             <h:outputText value="identidade" /> 
+                             <h:outputText value="sexo" /> 
+                             <p:inputText value="#{funcionarioBean.funcionario.ident}" style="width: 200px"/> 
+                               <p:selectOneMenu value="#{funcionarioBean.funcionario.sexo}">  
+                                
+                                <f:selectItem itemLabel="M" itemValue="M" /> 
+                                <f:selectItem itemLabel="F" itemValue="F" /> 
+                                
+                            </p:selectOneMenu>
+                             
+                             
+                        
+                             <h:outputText value="tel" /> 
+                             <p:separator /> 
+                             <p:inputText value="#{funcionarioBean.funcionario.tel}" style="width: 200px"/> 
+                             
+                        </h:panelGrid>  
+                        <p:separator /> 
+                        <h:commandButton  actionListener="#{funcionarioBean.incluirFuncionario()}"  title="Salvar" value="Salvar"  />  
+                        <h:commandButton id="btnCreateCancelar"    title="Cancelar" value="Cancelar" actionListener="#{funcionarioBean.limparCampos()}" />  
+  
+                    </p:dialog> 
+             
+
+                
+                </h:form>
+                
+                
+            </ui:define>
+
+          
+
+        </ui:composition>
+
+    </body>
+</html>

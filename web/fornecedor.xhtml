@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./Template.xhtml">
+
+           
+
+            <ui:define name="content">
+              
+                  <h:form   rendered="#{loginBean.verificaSessao()}">
+                      
+                      
+            <h:commandButton value="PDF" actionListener="#{clienteBean.exportarPDF}"/>
+            <h:commandButton value="EXCEL" actionListener="#{clienteBean.exportarExcel}"/>
+            <h:commandButton value="PPT" actionListener="#{clienteBean.exportarPPT}"/>      
+            <h:commandButton value="DOC" actionListener="#{clienteBean.exportarDOC}"/> 
+            <h:commandButton value="HTML" actionListener="#{clienteBean.exportarHTML}"/>
+                      
+                 <p:commandButton id="btnCreateUsuario1" update=":formCreate" oncomplete="dialogUsuarioCreate.show()"   title="Novo" value="Novo"/>
+              </h:form>
+                <center>
+                
+               
+                
+                
+                <f:view>
+
+
+                  
+                            
+                            <h:form   rendered="#{loginBean.verificaSessao()}">
+                        <h1><h:outputText value="Lista de Fornecedor"/></h1>
+                        
+                        <p:dataTable id="tbl" var="item" value="#{fornecedorBean.lista}"
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                 paginator="true" rows="10" style="margin-bottom:20px">
+                            
+                            
+                            
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="id"/>
+                                </f:facet>
+                                <h:outputText value="#{item.id}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nome"/>
+                                </f:facet>
+                                <h:outputText value="#{item.nome}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Cel"/>
+                                </f:facet>
+                                <h:outputText value="#{item.cel}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Tel"/>
+                                </f:facet>
+                                <h:outputText value="#{item.tel}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Email"/>
+                                </f:facet>
+                                <h:outputText value="#{item.email}"/>
+                            </p:column>
+                            
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Estado"/>
+                                </f:facet>
+                                <h:outputText value="#{item.estado}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Fornec"/>
+                                </f:facet>
+                                <h:outputText value="#{item.produto}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Detalhe"/>
+                                </f:facet>
+                                <h:outputText value="#{item.detalhe}"/>
+                            </p:column>
+                            
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Cep"/>
+                                </f:facet>
+                                <h:outputText value="#{item.cep}"/>
+                            </p:column>
+                             <p:column style="width:140px">
+                                <f:facet name="header">
+                                    <h:outputText value="Ação"/>
+                                </f:facet>
+                                <p:commandButton value="excluir" action="#{fornecedorBean.excluir(item)}"/>
+                               
+                                 <p:commandButton id="btnCreateUsuario" update=":formCreate" oncomplete="dialogUsuarioCreate.show()"   title="Alterar" value="Alterar" action="#{fornecedorBean.prepararEdita(item)}"/>
+              
+                             </p:column>
+                            <f:facet name="header">
+                           !! Total de fornecedores:         :
+                           <h:outputText value="#{fornecedorBean.tamanho()}"/>
+                            
+                        </f:facet>
+                        </p:dataTable>
+                    </h:form>
+                </f:view>
+</center>
+              
+                 <h:form id="formCreate">
+                    <p:dialog header="Cadastro de Produto" widgetVar="dialogUsuarioCreate" resizable="false" id="dlgUsuarioCreater" modal="true" hideEffect="explode">  
+                        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+
+                            <h:outputText value="ID" /> 
+                             <h:outputText value="nome" />
+                             <p:inputText value="#{fornecedorBean.fornecedor.id}" style="width: 200px"/> 
+                             <p:inputText value="#{fornecedorBean.fornecedor.nome}" style="width: 200px"/> 
+                            
+                            <h:outputText value="cel" /> 
+                             <h:outputText value="tel" /> 
+                             <p:inputText value="#{fornecedorBean.fornecedor.cel}" style="width: 200px"/> 
+                             <p:inputText value="#{fornecedorBean.fornecedor.tel}" style="width: 200px"/> 
+                           
+                            <h:outputText value="cep" /> 
+                             <h:outputText value="cgc" /> 
+                             <p:inputText value="#{fornecedorBean.fornecedor.cep}" style="width: 200px"/> 
+                             <p:inputText value="#{fornecedorBean.fornecedor.cgc}" style="width: 200px"/> 
+                            
+                             <h:outputText value="cidade" /> 
+                             <h:outputText value="cpf" /> 
+                             <p:inputText value="#{fornecedorBean.fornecedor.cidade}" style="width: 200px"/> 
+                             <p:inputText value="#{fornecedorBean.fornecedor.cpf}" style="width: 200px"/> 
+
+                             
+                             <h:outputText value="detalhes" /> 
+                             <h:outputText value="email" /> 
+                             <p:inputText value="#{fornecedorBean.fornecedor.detalhe}" style="width: 200px"/> 
+                             <p:inputText value="#{fornecedorBean.fornecedor.email}" style="width: 200px"/> 
+                             
+                             
+                             <h:outputText value="endereco" /> 
+                             <h:outputText value="estado" /> 
+                             <p:inputText value="#{fornecedorBean.fornecedor.endereco}" style="width: 200px"/> 
+                              
+                               <p:selectOneMenu value="#{fornecedorBean.fornecedor.estado}">  
+                                
+                                <f:selectItem itemLabel="AC" itemValue="AC" /> 
+                                <f:selectItem itemLabel="AL" itemValue="AL" /> 
+                                <f:selectItem itemLabel="AP" itemValue="AP" /> 
+                                <f:selectItem itemLabel="AM" itemValue="AM" /> 
+                                <f:selectItem itemLabel="BA" itemValue="BA" /> 
+                                <f:selectItem itemLabel="CE" itemValue="CE" /> 
+                                <f:selectItem itemLabel="DF" itemValue="DF" /> 
+                                <f:selectItem itemLabel="ES" itemValue="ES" /> 
+                                <f:selectItem itemLabel="GO" itemValue="GO" /> 
+                                <f:selectItem itemLabel="MA" itemValue="MA" /> 
+                                <f:selectItem itemLabel="MT" itemValue="MT" /> 
+                                <f:selectItem itemLabel="MS" itemValue="MS" /> 
+                                <f:selectItem itemLabel="MG" itemValue="MG" /> 
+                                <f:selectItem itemLabel="PR" itemValue="PR" /> 
+                                <f:selectItem itemLabel="PB" itemValue="PB" /> 
+                                <f:selectItem itemLabel="PA" itemValue="PA" /> 
+                                <f:selectItem itemLabel="PE" itemValue="PE" /> 
+                                <f:selectItem itemLabel="PI" itemValue="PI" /> 
+                                <f:selectItem itemLabel="RJ" itemValue="RJ" /> 
+                                <f:selectItem itemLabel="RN" itemValue="RN" /> 
+                                <f:selectItem itemLabel="RS" itemValue="RS" /> 
+                                <f:selectItem itemLabel="RO" itemValue="RO" /> 
+                                <f:selectItem itemLabel="RR" itemValue="RR" /> 
+                                <f:selectItem itemLabel="SC" itemValue="SC" /> 
+                                <f:selectItem itemLabel="SE" itemValue="SE" /> 
+                                <f:selectItem itemLabel="SP" itemValue="SP" /> 
+                                <f:selectItem itemLabel="TO" itemValue="TO" /> 
+                               </p:selectOneMenu>
+                             
+                           
+                             <h:outputText value="produto" /> 
+                             <h:outputText value="" /> 
+                             <p:inputText value="#{fornecedorBean.fornecedor.produto}" style="width: 200px"/> 
+                           
+                             
+                        </h:panelGrid>  
+                        <p:separator /> 
+                        <h:commandButton  actionListener="#{fornecedorBean.incluirFornecedor()}"  title="Salvar" value="Salvar"  />  
+                        <h:commandButton id="btnCreateCancelar"  title="Cancelar" value="Cancelar" actionListener="#{fornecedorBean.limparCampos()}" />  
+
+                    </p:dialog> 
+             
+
+                
+                </h:form>
+                  
+                
+            </ui:define>
+
+           
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+          <ui:composition template="./privado/Template.xhtml">
+            <ui:define name="content">
+                <p:growl id="msgs" showDetail="true"  /> 
+                <h:form>
+                    <p:commandButton id="btnCreateUsuario" update=":formCreate" oncomplete="dialogUsuarioCreate.show()"  icon="icon-incluir"  title="Novo" value="Novo"/>  
+                    <p:commandButton value="&nbsp;PDF" actionListener="#{beaoDao.PDF}"  image="icon-PDF"  title="PDF" style="width:5% ; text-align: left" />
+                    <p:commandButton value="&nbsp;Excel" actionListener="#{dao.EXCEL}" image="icon-Excel" title="Excel"  style="width:5% ; text-align: center"/>
+                    <p:commandButton value="&nbsp;XML" actionListener="#{dao.XML}" image="icon-XML" title="XML"  style="width:5% ; text-align: center"/>
+                    <p:commandButton value="&nbsp;CSV"  actionListener="#{dao.CSV}" image="icon-CSV" title="CSV"  style="width:5% ; text-align: center"/>
+                    <p:commandButton value="&nbsp;DOCX"  actionListener="#{dao.DOCX}" image="icon-CSV" title= "DOCX"  style="width:5% ; text-align: center"/>
+                    Aqui eu coloco um titulo
+                    <p:commandButton value="&nbsp;Calculadora"  />
+                </h:form>
+
+                <h:form id="formDataTable">
+                    <p:dataTable id="cars"  var="usuario" value="#{usuarioBean.usuarios}" paginator="true" rows="3">  
+                        <p:column headerText="ID">  
+                            <h:outputText value="#{usuario.idusuario}" />  
+                        </p:column>  
+                        <p:column headerText="Nome">  
+                            <h:outputText value="#{usuario.usuario}" />  
+                        </p:column>  
+                        <p:column headerText="Chave">  
+                            <h:outputText value="#{usuario.clave}" />  
+                        </p:column> 
+                        <p:column headerText="Sobrenome">  
+                            <h:outputText value="#{usuario.email}" />  
+                        </p:column>  
+                        <p:column style="width:5% ; text-align: center">  
+                                <p:commandButton id="btnUpdate" update=":formUpdate" oncomplete="dialogUsuarioUpdate.show()"  icon="icon-incluir"  title="Editar" value="Editar" >  
+                                <f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.selectedUsuario}"/>
+                                </p:commandButton>
+                            <p:commandButton id="btnDelete"     update=":formDelete" oncomplete="dialogUsuarioDelete.show()" icon="icon-excluir" title="Excluir" value="Excluir">  
+                                <f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.selectedUsuario}"/>
+                                </p:commandButton>
+                        </p:column>
+                    </p:dataTable> 
+                </h:form>
+
+                <h:form id="formCreate">
+                    <p:dialog header="Novo Cliente" widgetVar="dialogUsuarioCreate" resizable="false" id="dlgUsuarioCreater" modal="true" hideEffect="explode">  
+                        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+
+                            <h:outputText value="Nome aid" /> 
+                            <h:outputText value="nome" /> 
+                            <p:inputText value="#" style="width: 200px"/> 
+                            <p:inputText value="#{usuarioBean.selectedUsuario.usuario}" style="width: 200px"/> 
+
+                            <h:outputText value="email" /> 
+                            <h:outputText value="chave" /> 
+                            <p:inputTextarea value="#{usuarioBean.selectedUsuario.email}" rows="6" cols="38" /> 
+                            <p:inputTextarea value="#{usuarioBean.selectedUsuario.clave}" rows="6" cols="38" /> 
+
+                            <h:outputText value="Linha" /> 
+                            <h:outputText value="Telefone" /> 
+                            <p:inputText value="" style="width: 200px"/> 
+                            <p:inputText value="" style="width: 200px"/> 
+
+                            <h:outputText value="Celular" /> 
+                            <h:outputText value="Operadora" /> 
+                            <p:inputText value="" style="width: 200px"/> 
+
+                            <p:selectOneMenu value="#">  
+                                <f:selectItem itemLabel="Selecionar" itemValue="" /> 
+                                <f:selectItem itemLabel="vivo" itemValue="vvivo" /> 
+                                <f:selectItem itemLabel="claro" itemValue="claro" /> 
+                                <f:selectItem itemLabel="oi" itemValue="oi" /> 
+                                <f:selectItem itemLabel="nextel" itemValue="nextel" /> 
+                            </p:selectOneMenu>     
+                            <h:outputText value="E-mail" /> 
+                            &nbsp;
+                            <p:inputText value="" style="width: 200px"/> 
+                            &nbsp;
+                        </h:panelGrid>  
+                        <p:separator /> 
+                        <p:commandButton id="btnCreateAceitar" update=":formDataTable,:msgs" oncomplete="dialogUsuarioCreate.hide()" actionListener="#{usuarioBean.btnCriarUsuario(actionevent)}" icon="icon-salvar"  title="Salvar" value="Salvar"  />  
+                        <p:commandButton id="btnCreateCancelar"  oncomplete="dialogUsuarioCreate.hide()"  icon="icon-deletar"  title="Cancelar" value="Cancelar"/>  
+
+                    </p:dialog> 
+                </h:form>
+
+                <h:form id="formUpdate">
+
+                    <p:dialog header="Alterar Cliente" widgetVar="dialogUsuarioUpdate" resizable="false" id="dlgUsuarioUpdate" modal="true" hideEffect="explode">  
+
+                        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+
+                            <h:outputText value="Nome a ser criado" /> 
+                            <h:outputText value="Sobrenome" /> 
+                            <p:inputText value="#{usuarioBean.selectedUsuario.idusuario}" style="width: 200px"/> 
+                            <p:inputText value="#{usuarioBean.selectedUsuario.usuario}" style="width: 200px"/> 
+
+                            <h:outputText value="Direcao" /> 
+                            <h:outputText value="Referencia" /> 
+                            <p:inputTextarea value="#{usuarioBean.selectedUsuario.email}" rows="6" cols="38" /> 
+                            <p:inputTextarea value="#{usuarioBean.selectedUsuario.clave}" rows="6" cols="38" /> 
+
+                            <h:outputText value="Linha" /> 
+                            <h:outputText value="Telefone" /> 
+                            <p:inputText value="" style="width: 200px"/> 
+                            <p:inputText value="" style="width: 200px"/> 
+
+                            <h:outputText value="Celular" /> 
+                            <h:outputText value="Operadora" /> 
+                            <p:inputText value="" style="width: 200px"/> 
+
+                            <p:selectOneMenu value="#">  
+                                <f:selectItem itemLabel="Selecionar" itemValue="" /> 
+                                <f:selectItem itemLabel="vivo" itemValue="vvivo" /> 
+                                <f:selectItem itemLabel="claro" itemValue="claro" /> 
+                                <f:selectItem itemLabel="oi" itemValue="oi" /> 
+                                <f:selectItem itemLabel="nextel" itemValue="nextel" /> 
+                            </p:selectOneMenu>     
+
+                            <h:outputText value="E-mail" /> 
+                            &nbsp;
+                            <p:inputText value="" style="width: 200px"/> 
+                            &nbsp;
+                        </h:panelGrid>  
+                        <p:separator /> 
+                        <p:commandButton id="btnUpdateAceitar" update=":formDataTable, :msgs" oncomplete="dialogUsuarioUpdate.hide()" icon="icon-salvar"  title="Salvar" value="Salvar"/>  
+                        <p:commandButton id="btnUpdateCancelar"  oncomplete="dialogUsuarioUpdate.hide()"  icon="icon-deletar"  title="Cancelar" value="Cancelar"/>  
+
+
+                    </p:dialog> 
+                </h:form>
+
+                <h:form id="formDelete">
+                    <p:confirmDialog id="confirDialog" message="Tem certeza que deseja exluir o registro " showEffect="fade" hideEffect="explode" widgetVar="dialogUsuarioDelete">  
+                        <h:inputHidden value="#{usuarioBean.selectedUsuario.idusuario}" />
+                        <p:commandButton id="confirmdelete" value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="icon-incluir" oncomplete="dialogUsuarioDelete.hide()" actionListener="#{usuarioBean.btnDeletarUsuario(actionevent)}" update=":formDataTable:,:msgs"/>  
+                        <p:commandButton id="decline"  value="Não" type="button" styleClass="ui-confirmdialog-no" icon="icon-deletar" onclick="dialogUsuarioDelete.hide()"/>       
+                    </p:confirmDialog> 
+                </h:form>
+
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

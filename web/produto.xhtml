@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./Template.xhtml">
+
+            
+
+            <ui:define name="content">
+             
+                   <h:form   rendered="#{loginBean.verificaSessao()}">
+                       
+                       
+                       
+            <h:commandButton value="PDF" actionListener="#{clienteBean.exportarPDF}"/>
+            <h:commandButton value="EXCEL" actionListener="#{clienteBean.exportarExcel}"/>
+            <h:commandButton value="PPT" actionListener="#{clienteBean.exportarPPT}"/>      
+            <h:commandButton value="DOC" actionListener="#{clienteBean.exportarDOC}"/> 
+            <h:commandButton value="HTML" actionListener="#{clienteBean.exportarHTML}"/>
+                       
+                    <p:commandButton value="Cadastrar" type="button" onclick="PF('dlg3').show();" /> 
+                   </h:form>
+                <center>
+                
+               
+                
+                
+                <f:view>
+
+
+                   <h:form   rendered="#{loginBean.verificaSessao()}">
+                        <h1><h:outputText value="Lista de Produtos"/></h1>
+                        <p:dataTable id="tabela" var="item" value="#{produtoBean.lista}"
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                 paginator="true" rows="10" style="margin-bottom:20px">
+ 
+                          
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="id"/>
+                                </f:facet>
+                                <h:outputText value="#{item.id}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Quant"/>
+                                </f:facet>
+                                <h:outputText value="#{item.quant}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nome"/>
+                                </f:facet>
+                                <h:outputText value="#{item.nome}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Valor/venda"/>
+                                </f:facet>
+                                <h:outputText value="#{item.valor}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Codigo/Inter"/>
+                                </f:facet>
+                                <h:outputText value="#{item.codigoInter}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Pcusto"/>
+                                </f:facet>
+                                <h:outputText value="#{item.pcusto}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Estoque/Minimo"/>
+                                </f:facet>
+                                <h:outputText value="#{item.estoqueMinimo}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Fornecedor"/>
+                                </f:facet>
+                                <h:outputText value="#{item.fornecedor}"/>
+                            </p:column>
+                             
+                            <p:column style="width:140px">
+                                <f:facet name="header">
+                                    <h:outputText value="Ação"/>
+                                </f:facet>
+                                <p:commandButton value="excluir" action="#{produtoBean.excluir(item)}"/>
+                 
+                                  
+                                  <p:commandButton value="Alterar" type="button" onclick="PF('dlg3').show();" action="#{produtoBean.prepararEdita(item)}"/>
+                               
+                                
+                            </p:column>
+                            
+                             <f:facet name="header">
+                           !! Total de Produtos:
+                           <h:outputText value="#{produtoBean.tamanho()}"/>
+                               
+                        </f:facet>
+                            
+                     
+                        </p:dataTable>
+                        
+                        
+                    </h:form>
+                </f:view>
+
+                </center>
+                
+                
+                 <h:form id="formCreate">
+                     
+                      
+                       <p:dialog header="Effects" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="150"> 
+                       
+                     <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
+
+                            <h:outputText value="ID" /> 
+                             <h:outputText value="nome" />
+                            <p:inputText value="#{produtoBean.produto.id}" style="width: 200px"/> 
+                            <p:inputText value="#{produtoBean.produto.nome}" style="width: 200px"/> 
+                            
+                            <h:outputText value="codigo interno" /> 
+                             <h:outputText value="fornecedor" /> 
+                            <p:inputText value="#{produtoBean.produto.codigoInter}" style="width: 200px"/> 
+                            <p:inputText value="#{produtoBean.produto.fornecedor}" style="width: 200px"/> 
+                           
+                            <h:outputText value="estoque minimo" /> 
+                             <h:outputText value="preço de custo" /> 
+                             <p:inputText value="#{produtoBean.produto.estoqueMinimo}" style="width: 200px"/> 
+                             <p:inputText value="#{produtoBean.produto.pcusto}" style="width: 200px"/> 
+                            
+                             <h:outputText value="quantidade" /> 
+                             <h:outputText value="valor de venda" /> 
+                             <p:inputText value="#{produtoBean.produto.quant}" style="width: 200px"/> 
+                             <p:inputText value="#{produtoBean.produto.valor}" style="width: 200px"/> 
+
+                           
+                        </h:panelGrid>  
+                        <p:separator /> 
+                        <h:commandButton  action="#{produtoBean.incluirProduto()}"  title="Salvar" value="Salvar"  />  
+                        <h:commandButton id="btnCreateCancelar"   title="Cancelar" value="Cancelar" actionListener="#{produtoBean.limparCampos()}" />  
+
+                    </p:dialog> 
+             
+
+                
+                </h:form>
+                
+                
+            </ui:define>
+
+           
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+          <ui:composition template="./TemplateVenda.xhtml">
+
+           
+
+            <ui:define name="left">
+               
+               
+               
+            </ui:define>
+
+            <ui:define name="right">
+                <h:form>
+                    
+                   
+                    <f:view>
+
+
+                        <h:form>
+                            <h1><h:outputText value="::: Detalhes :::"/></h1>
+                            <h:panelGrid columns="1">
+                                  Total de itens:
+                             
+                                  <h:outputText value="#{vendaBean.tamanho()}" />
+                             
+                                <h:outputLabel value="ValorTotal:" for="Total" />
+                                <h:outputText id="valorTotal" value="#{vendaBean.valorTotal}" title="ValorTotal" />
+                              
+                             
+                                <h:outputLabel value="Valor Pago:" for="valorPago" />
+                                <h:inputText id="valorPago" value="#{vendaBean.venda.valorPago}" title="ValorPago" style="width:100px"/>
+                                <h:outputLabel value="troco" for="troco" />
+                                <h:outputText id="troco" value="#{vendaBean.venda.troco}" title="Troco" />
+                                <h:outputLabel value="Proxima Nota" for="ultimaNota" />
+                                <h:outputText id="nota" value="#{vendaBean.ultimaNota}" title="nota" />
+                          
+                            
+                            </h:panelGrid>
+                        </h:form>
+                        
+                        
+                        <h:form >
+                  <h:commandButton value="finalizar venda" action="#{vendaBean.realizarvenda()}"/> 
+                  
+                
+                  </h:form>
+                        
+                    </f:view>
+
+                    
+                </h:form>
+            </ui:define>
+
+            <ui:define name="content">
+                
+
+
+                <center>
+                    <f:view>
+                         <h:form>
+                     <h:selectOneMenu value="valores" >
+                              Cliente:    <f:selectItems  value="#{clienteBean.lista}" var="pr" itemLabel="#{pr.nome}"/>
+                              <f:selectItem value="#{pr.nome}"/>
+                               </h:selectOneMenu>
+                            
+                              
+
+                            <br></br>Quantidade:
+                            
+                            <h:inputText value="#{vendaBean.venda.quantidade}" id="v"  />
+
+                            <h1><h:outputText value="Lista de Produtos Disponiveis"/></h1>
+
+                            <p:dataTable id="tabelaprodutos" var="item" value="#{produtoBean.lista}"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                         paginator="true" rows="4" style="width:800px">
+
+
+                                <p:column style="width:30px">
+                                    <f:facet name="header">
+                                        <h:outputText value="id"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.id}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Nome"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.nome}"/>
+                                </p:column>
+                                <p:column style="width:60px">
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.valor}"/>
+                                </p:column>
+
+                                <p:column style="width:30px">
+                                    <f:facet name="header">
+                                        <h:outputText value="Ação"/>
+                                    </f:facet>
+                                    <h:commandButton value="Incluir" action="#{vendaBean.incluirCarrinho(item)}"/>
+                                </p:column>
+                            </p:dataTable>
+                            
+                            
+                            
+                            
+                        </h:form>
+                    </f:view>
+
+                    <br>:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::</br>
+                    <br></br>
+
+                    <f:view>
+                        <h:form>
+                            
+                            
+                            
+                            <h1><h:outputText value="Lista do carrinho de compras"/></h1>
+
+                            <p:dataTable id="tblcarrinho" var="item1" value="#{vendaBean.carrinhoCompras}"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                         paginator="true" rows="4" style="width:800px" rendered="#{not empty vendaBean.carrinhoCompras}">
+
+                                   <p:column style="width:30px">
+                                    <f:facet name="header">
+                                        <h:outputText value="id"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item1.id}"/>
+                                </p:column>
+
+                                
+                                 <p:column style="width:30px">  
+                                    <f:facet name="header">
+                                        <h:outputText value="Produto"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item1.prevProduto}"/>
+                                </p:column> 
+                                <p:column style="width:30px">  
+                                    <f:facet name="header">
+                                        <h:outputText value="cliente"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item1.prevCliente}"/>
+                                </p:column> 
+                                <p:column style="width:30px">  
+                                    <f:facet name="header">
+                                        <h:outputText value="vendedor"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item1.prevVendedor}"/>
+                                </p:column> 
+                                <p:column style="width:60px">
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item1.valorvendaProdutoprevV}"/>
+                                </p:column>
+                                <p:column style="width:30px">  
+                                    <f:facet name="header">
+                                        <h:outputText value="Quantidade"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item1.quantidade}"/>
+                                </p:column>
+                                <p:column style="width:60px">
+                                    <f:facet name="header">
+                                        <h:outputText value="Total"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item1.totalPrev}"/>
+
+                                </p:column>
+                               
+                                <p:column style="width:90px">
+                                    <f:facet name="header">
+                                        <h:outputText value="Ação"/>
+                                    </f:facet>
+
+                                    <h:commandButton value="Excluir" action="#{vendaBean.retirarCarrinho(item1)}"/>
+                                  
+                                </p:column>
+                                <f:facet name="header">
+                           !! Total de itens no carrinho         :
+                           <h:outputText value="#{vendaBean.tamanho()}"/>
+                            
+                        </f:facet>
+                            
+                     
+                      <f:facet name="header">
+                           !!        Valor Total :
+                           <h:outputText value="#{vendaBean.valorTotal}"/>
+                          
+                            
+                        </f:facet>
+                                
+
+                            </p:dataTable>
+                           
+                            <h:commandButton value="limpar Carrinho" action="#{vendaBean.limparCarrinho()}"/>
+                      
+                       
+                        
+                        </h:form>
+                    </f:view>
+                </center>
+
+                
+              
+                
+                
+                
+                
+            </ui:define>
+
+          
+
+            
+            
+        </ui:composition>
+
+    </body>
+</html>

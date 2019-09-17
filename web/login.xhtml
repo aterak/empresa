@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+      <ui:composition template="./TemplateLogin.xhtml">
+
+          <div id="top">
+              <ui:insert name="top">
+                  
+              </ui:insert>
+
+           
+            </div>
+               <ui:define name="content">  
+        <center>
+            <h:form>
+                  <h:commandButton value="index" action="index"/> 
+            </h:form>
+             <h:form id="formLogin" > 
+             
+                <p:panel header="Funcionario Entre com id e senha" footer="Esqueci a senha!">
+                    <h:panelGrid columns="2" cellpadding="5">  
+                        <h:outputLabel for="username" value="id" />  
+                        <p:inputText  value="#{loginBean.funcionario.id}"   id="username" required="true" label="username" />  
+                                    
+
+                        <h:outputLabel for="password" value="senha" />  
+                        <p:password value="#{loginBean.funcionario.senha}"     id="password" required="true" label="password" />  
+
+                        <f:facet name="footer">  
+                            <p:commandButton id="loginButton" value="Login"    
+                                             action="#{loginBean.verificaLogin()}" />  
+                        </f:facet>  
+                    </h:panelGrid>  
+                </p:panel>
+            </h:form>  
+           
+            
+            <script type="text/javascript">
+            function handleLoginRequest(xhr, status, args) {
+                if (args.validationFailed || !args.loggedIn) {
+                    PF('formLogin').jq.effect("shake", {times: 5}, 100);
+                }
+                else {
+                    location.href = args.rota;
+                }
+            }
+        </script>  
+       
+        </center>
+            </ui:define>
+
+           
+
+        </ui:composition>
+
+    </body>
+</html>
